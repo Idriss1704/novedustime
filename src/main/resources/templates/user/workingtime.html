@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title th:text="#{sidebar.recordtime}"></title>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16"
+	href="/webresources/images/favicon.png">
+<!-- Pignose Calender -->
+<link
+	href="/webresources/plugins/pg-calendar/css/pignose.calendar.min.css"
+	rel="stylesheet">
+<!-- Chartist -->
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist/css/chartist.min.css">
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+<!-- Custom Stylesheet -->
+<link href="/webresources/css/style.css" rel="stylesheet">
+<!-- fontawesome-free -->
+<link rel="stylesheet"
+	href="/webresources/vendor/fontawesome-free/css/all.css">
+<link href="/webresources/plugins/fullcalendar/css/fullcalendar.min.css"
+	rel="stylesheet">
+<link href="./plugins/sweetalert/css/sweetalert.css" rel="stylesheet">
+
+<link
+	href="/webresources/plugins/clockpicker/dist/jquery-clockpicker.min.css"
+	rel="stylesheet">
+<!-- Color picker plugins css -->
+<link
+	href="/webresources/plugins/jquery-asColorPicker-master/css/asColorPicker.css"
+	rel="stylesheet">
+<link
+	href="/webresources/plugins/timepicker/bootstrap-timepicker.min.css"
+	rel="stylesheet">
+
+<link href="/webresources/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+	<!--*******************
+        Preloader start
+    ********************-->
+	<div id="preloader">
+		<div class="loader">
+			<svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none"
+					stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+		</div>
+	</div>
+	<!--*******************
+        Preloader end
+    ********************-->
+
+
+	<!--**********************************
+        Main wrapper start
+    ***********************************-->
+	<div id="main-wrapper">
+
+		<!--**********************************
+            Nav header start
+        ***********************************-->
+		<div th:insert="navheader :: navheader"></div>
+		<!--**********************************
+            Nav header end
+        ***********************************-->
+
+		<!--**********************************
+            Header start
+        ***********************************-->
+		<div th:insert="header :: header"></div>
+		<!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+		<!--**********************************
+            Sidebar start
+        ***********************************-->
+		<div th:insert="sidebar :: sidebar"></div>
+		<!--**********************************
+            Sidebar end
+        ***********************************-->
+
+		<!--**********************************
+            Content body start
+        ***********************************-->
+		<div class="content-body">
+
+			<div class="row page-titles mx-0">
+				<div class="col p-md-0">
+					<h3 style="color: orange" th:text="#{sidebar.recordtime}"></h3>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="col-lg-12">
+				<div class="row">
+					<div class="col-lg-2 col-sm-2">
+						<div class="card gradient-1">
+							<div class="card-body">
+								<h5 class="text-white"
+									th:text="#{newworkingtime.currentworkinghours}"></h5>
+								<div class="d-inline-block">
+									<h5 class="text-white"
+										th:text="${workingmonth.workingHours} +' ' + #{general.hours}"></h5>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-2">
+						<div class="card gradient-3">
+							<div class="card-body">
+								<h5 class="text-white"
+									th:text="#{newworkingtime.timedifference}"></h5>
+								<div class="d-inline-block">
+									<h5 class="text-white"
+										th:text="${user.overtime} +' ' + #{general.hours}"></h5>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-2">
+						<div class="card gradient-2">
+							<div class="card-body">
+								<h5 class="text-white"
+									th:text="#{newworkingtime.availablevacation}"></h5>
+								<div class="d-inline-block">
+									<h5 class="text-white"
+										th:text="${restVacation} +' ' + #{general.days}"></h5>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-2">
+						<div class="card gradient-4">
+							<div class="card-body">
+								<h5 class="text-white"
+									th:text="#{newworkingtime.plannedvacation}"></h5>
+								<div class="d-inline-block">
+									<h5 class="text-white"
+										th:text="${plannedVacation} +' ' + #{general.days}"></h5>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						<form class="form-valide" action="#"
+							th:action="@{/user/filterworkingtime}"
+							th:object="${workingtimefilter}" method="post">
+							<div class="row">
+								<div class="">
+									<div class="">
+										<select class="form-control" th:required="required"
+											th:field="*{year}">
+											<th:block th:each="useryear: ${useryears}">
+												<option th:value="${useryear}" th:text="${useryear}"></option>
+
+											</th:block>
+										</select>
+									</div>
+								</div>
+								<div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+								<div class="">
+									<div class="">
+										<select class="form-control" th:required="required"
+											th:field="*{month}">
+											<th:block th:each="i: ${#numbers.sequence(1, 12)}">
+												<option th:value="|${T(Integer).parseInt({i})}|"
+													th:text="${dateFormatSymbols.getMonths()[i - 1]}"></option>
+
+											</th:block>
+										</select>
+									</div>
+								</div>
+								<div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+								<div class="">
+
+									<div class="">
+										<button type="submit" class="btn  btn-warning"
+											th:text="#{general.submit}"></button>
+									</div>
+
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<div th:if="${error == true}">
+							&nbsp;&nbsp;
+							<p style="color: white; background-color: red"
+								th:text="#{${errormessage}}"></p>
+						</div>
+						<div class="table-responsive">
+							<h4 style="color: darkred"
+								th:text="${dateFormatSymbols.getMonths()[workingmonth.month - 1]} + ' ' + ${workingmonth.year}"></h4>
+							<div class="pull-right" th:if="${workingmonth.closed == false}">
+								<span data-toggle="modal"
+									th:attr="data-target='#modalFinish'+${workingmonth.id}"
+									data-target="#exampleModal" data-whatever="@getbootstrap"><button
+										type="button" class="btn btn-primary">
+										<span th:text="#{newworkingtime.finishmonth}"></span><span>&nbsp;</span><i></i>
+									</button></span>
+								<div class="modal fade" id="modalFinish" role="dialog"
+									th:id="modalFinish+${workingmonth.id }" aria-hidden="true">
+									<form class="form-valide" action="#"
+										th:action="@{/user/finishmonth}" method="post">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-body">
+													<label for="message-text" class="col-form-label"
+														th:text="'['+${dateFormatSymbols.getMonths()[workingmonth.month - 1]} + ' ' + ${workingmonth.year}+']'+ ' '+ #{newworkingtime.askforfinishmonth}"></label>
+													<input type="hidden" id="workingmonthId"
+														name="workingmonthId" th:value="${workingmonth.id}">
+													<input type="hidden" id="workingmonthId"
+														name="workingmonthId" th:value="${workingmonth.id}">
+
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-dismiss="modal" th:text="#{general.cancel}"></button>
+													<button type="submit" class="btn btn-primary"
+														th:text="#{general.yes}"></button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<form class="form-valide" action="#"
+								th:action="@{/user/addworkingday}" th:object="${workingday}"
+								method="post">
+								<input type="hidden" class="form-control" th:field="*{id}" /> <input
+									type="hidden" class="form-control" th:field="*{workingMonthId}" />
+								<table class="table header-border">
+									<thead>
+										<tr>
+											<th th:text="#{newworkingtime.date}"></th>
+											<th th:text="#{newworkingtime.begin}"></th>
+											<th th:text="#{newworkingtime.end}"></th>
+											<th th:text="#{newworkingtime.pause}"></th>
+											<th th:text="#{newworkingtime.project}"></th>
+											<th th:text="#{newworkingtime.hours}"></th>
+											<th th:text="#{newworkingtime.action}"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<th:block th:each="day: ${workingdays}">
+											<tr th:if="${workingday.getId() != day.getId()}">
+												<td th:text="${util.dateToString(day.date)}"></td>
+												<td th:text="${util.localTimeToString(day.start)}"></td>
+												<td th:text="${util.localTimeToString(day.end)}"></td>
+												<td th:text="${util.durationToLocalTime(day.pause)}"></td>
+												<td><span th:if="${day.project != null}"
+													th:text="${day.project.projectName}"></span></td>
+												<td><span th:text="${day.hours}"></span> &nbsp;
+													&nbsp;&nbsp;<span th:if="${day.comment != ''}"
+													data-toggle="modal"
+													th:attr="data-target='#modalComment'+${day.id}"
+													data-target="#modalComment"><a data-toggle="tooltip"
+														data-placement="top"
+														th:title="#{general.commentavailable}"
+														style="color: orange" class="fa fa-info-circle"></a></span>
+													<div class="modal fade" id="modalComment" role="dialog"
+														th:id="modalComment+${day.id }" aria-hidden="true">
+														<div class="modal-dialog" role="document">
+															<div class="modal-content">
+																<div class="modal-body">
+																	<label for="message-text" class="col-form-label"
+																		th:text="${day.comment}"></label>
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-primary"
+																		data-dismiss="modal" th:text="#{general.close}"></button>
+																</div>
+															</div>
+														</div>
+													</div></td>
+												<td>
+													<div class="bootstrap-modal">
+														<span><a type="button" data-toggle="tooltip"
+															th:href="@{/user/editWorkingDay}+'/'+${day.id}"
+															data-placement="top" th:title="#{newworkingtime.edit}"
+															class="btn btn-primary btn-sm fa fa-edit"></a></span> <span
+															data-toggle="modal"
+															th:attr="data-target='#exampleModal'+${day.id}"
+															data-whatever="@getbootstrap"><button
+																type="button" class="btn btn-danger btn-sm fa fa-trash"
+																data-toggle="tooltip" data-placement="top"
+																th:title="#{newworkingtime.delete}"></button></span>
+
+
+														<div class="modal fade" th:id="exampleModal+${day.id }"
+															tabindex="-1" role="dialog"
+															aria-labelledby="exampleModalLabel" aria-hidden="true">
+															<div class="modal-dialog" role="document">
+																<div class="modal-content">
+																	<div class="modal-body">
+																		<div class="form-group">
+																			<label for="message-text" class="col-form-label"
+																				th:text="#{general.askbeforedelete}"> </label>
+																		</div>
+																	</div>
+																	<div class="modal-footer">
+																		<button type="button" class="btn btn-primary"
+																			data-dismiss="modal" th:text="#{general.cancel}"></button>
+																		<a type="button" class="btn btn-warning"
+																			th:href="@{/user/deleteWorkingDay}+'/'+${day.id}"
+																			th:text="#{general.yes}"></a>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+													</div>
+												</td>
+											</tr>
+
+											<tr
+												th:if="${workingday.getId() == day.getId() && edit == true}"
+												class="gradient-5"
+												style="border-style: solide; border-color: skyblue; text-align: center">
+												<td><div th:text="#{newworkingtime.date}"></div> <input
+													type="hidden" class="form-control" th:field="*{stringDate}">
+													<input type="text" class="form-control-sm"
+													th:value="${workingday.getStringDate()}"
+													th:disabled="disabled"></td>
+												<td><div th:text="#{newworkingtime.begin}"></div> <input
+													type="time" class="form-control-sm clockpicker"
+													data-autoclose="true" th:field="*{start}"
+													th:required="required" /></td>
+												<td><div th:text="#{newworkingtime.end}"></div> <input
+													type="time" class="form-control-sm clockpicker"
+													data-autoclose="true" th:field="*{end}"
+													th:required="required" /></td>
+												<td><div th:text="#{newworkingtime.pause}"></div> <input
+													type="time" class="form-control-sm clockpicker"
+													data-autoclose="true" th:field="*{pauseTime}"
+													th:required="required" /></td>
+												<td><div th:text="#{newworkingtime.project}"></div> <select
+													class="form-control-sm" th:field="*{projectId}">
+														<option th:each="project: ${projects}"
+															th:value="${project.getId()}"
+															th:text="${project.getProjectName()}"
+															th:selected="${project == currentdate}?: 'selected'">
+														</option>
+												</select></td>
+												<td><div th:text="#{newworkingtime.comment}"></div> <input
+													type="text" class="form-control-sm" th:field="*{comment}"
+													maxlength="50"></td>
+												<td></td>
+												<td>
+													<div class="bootstrap-modal">
+														<span><a type="button" data-toggle="tooltip"
+															th:href="@{/user/workingtime}+'/'+${workingmonth.getYear()}+'/'+${workingmonth.getMonth()}"
+															data-placement="top" class="btn btn-secondary btn-sms"
+															th:text="#{general.cancel}"></a></span> <span><button
+																type="submit" data-toggle="tooltip" data-placement="top"
+																class="btn btn-primary btn-sms"
+																th:text="#{newworkingtime.save}"></button></span>
+													</div>
+												</td>
+											</tr>
+
+
+										</th:block>
+										<tr th:each="absenceday: ${absencedays}">
+											<td th:text="${util.dateToString(absenceday.date)}"></td>
+											<td><span class="label"
+												th:style="|background-color: ${absenceday.getType().color}|">
+
+													<span th:switch="${absenceday.getType().vacation}">
+														<span th:case="true"
+														th:text="#{${absenceday.getType().name}}"></span> <span
+														th:case="false" th:text="${absenceday.getType().name}"></span>
+												</span>
+											</span></td>
+											<td></td>
+											<td></td>
+											<td></td>
+
+											<td th:text="${absenceday.getHours()}"></td>
+											<td></td>
+										</tr>
+										<tr style="background: lightblued">
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+
+									</tbody>
+								</table>
+								<table class="table "
+									style="border-style: solide; border-color: skyblue"
+									th:if="${workingmonth.closed == false && edit == false}">
+									<tr class="gradient-7"
+										style="border-style: solide; border-color: skyblue; text-align: center">
+										<td><div th:text="#{newworkingtime.date}"></div> <select
+											class="form-control-sm" th:field="*{stringDate}">
+												<option th:each="openday: ${opendays}"
+													th:value="${util.localDateToLongString(openday)}"
+													th:text="${util.localDateToLongString(openday)}"
+													th:selected="${openday == currentdate}?: 'selected'">
+												</option>
+										</select></td>
+										<td><div th:text="#{newworkingtime.begin}"></div> <input
+											type="time" class="form-control-sm clockpicker"
+											data-autoclose="true" th:field="*{start}"
+											th:required="required" /></td>
+										<td><div th:text="#{newworkingtime.end}"></div> <input
+											type="time" class="form-control-sm clockpicker"
+											data-autoclose="true" th:field="*{end}"
+											th:required="required" /></td>
+										<td><div th:text="#{newworkingtime.pause}"></div> <input
+											type="time" class="form-control-sm  clockpicker"
+											data-autoclose="true" th:field="*{pauseTime}"
+											th:required="required" /></td>
+										<td><div th:text="#{newworkingtime.project}"></div> <select
+											class="form-control-sm" th:field="*{projectId}">
+												<option th:each="project: ${projects}"
+													th:value="${project.getId()}"
+													th:text="${project.getProjectName()}"
+													th:selected="${project == currentdate}?: 'selected'">
+												</option>
+										</select></td>
+										<td><div th:text="#{newworkingtime.comment}"></div> <input
+											type="text" class="form-control-sm" th:field="*{comment}"
+											maxlength="50"></td>
+										<td></td>
+										<td>
+											<div class="bootstrap-modal">
+												<span><button type="submit" data-toggle="tooltip"
+														data-placement="top" class="btn btn-primary btn-sms"
+														th:text="#{newworkingtime.save}"></button></span>
+											</div>
+										</td>
+									</tr>
+
+								</table>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #/ container -->
+	</div>
+	<!--**********************************
+            Content body end
+        ***********************************-->
+
+
+	<!--**********************************
+            Footer start
+        ***********************************-->
+	<div th:insert="footer :: footer"></div>
+	<!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<script src="/webresources/plugins/common/common.min.js"></script>
+	<script src="/webresources/js/custom.min.js"></script>
+	<script src="/webresources/js/settings.js"></script>
+	<script src="/webresources/js/gleek.js"></script>
+	<script src="/webresources/js/styleSwitcher.js"></script>
+
+	<!-- Chartjs -->
+	<script src="/webresources/plugins/chart.js/Chart.bundle.min.js"></script>
+	<!-- Circle progress -->
+	<script
+		src="/webresources/plugins/circle-progress/circle-progress.min.js"></script>
+	<!-- Datamap -->
+	<script src="/webresources/plugins/d3v3/index.js"></script>
+	<script src="/webresources/plugins/topojson/topojson.min.js"></script>
+	<script src="/webresources/plugins/datamaps/datamaps.world.min.js"></script>
+	<!-- Morrisjs -->
+	<script src="/webresources/plugins/raphael/raphael.min.js"></script>
+	<script src="/webresources/plugins/morris/morris.min.js"></script>
+	<!-- Pignose Calender -->
+	<script src="/webresources/plugins/moment/moment.min.js"></script>
+	<script
+		src="/webresources/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+	<!-- ChartistJS -->
+	<script src="/webresources/plugins/chartist/js/chartist.min.js"></script>
+	<script
+		src="/webresources/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+	<!-- fontawesome-free -->
+	<script src="/webresources/vendor/fontawesome-free/js/all.js"></script>
+
+	<script src="/webresources/plugins/fullcalendar/js/fullcalendar.min.js"></script>
+	<script src="/webresources/js/plugins-init/fullcalendar-init.js"></script>
+	<script src="/webresources/js/dashboard/dashboard-1.js"></script>
+
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.min.js"></script>
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.init.js"></script>
+	<script
+		src="/webresources/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+	<!-- Clock Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+	<!-- Color Picker Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+	<!-- Date Picker Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<!-- Date range Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+	<script
+		src="/webresources/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+	<script src="/webresources/js/plugins-init/form-pickers-init.js"></script>
+</body>
+
+</html>

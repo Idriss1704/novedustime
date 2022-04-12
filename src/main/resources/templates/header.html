@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div th:fragment="header" class="header">
+		<div class="header-content clearfix">
+
+			<div class="nav-control">
+				<div class="hamburger">
+					<span class="toggle-icon"><i class="icon-menu"></i></span>
+				</div>
+			</div>
+			<div class="header-right">
+				<ul class="clearfix">
+					<li th:if="${#lists.size(newnotifications)} > 0"
+						class="icons dropdown"><a href="javascript:void(0)"
+						data-toggle="dropdown"> <i class="mdi mdi-bell-outline"></i> <span
+							class="badge badge-pill gradient-2"
+							th:text="${#lists.size(newnotifications)}"></span>
+					</a>
+						<div
+							class="drop-down animated fadeIn dropdown-menu dropdown-notfication">
+							<div
+								class="dropdown-content-heading d-flex justify-content-between">
+								<span class="" th:text="#{topbar.newnotifications}"></span>
+								<!--  <span><a
+									style="color: green;" href="/user/marknotificationsasread" class="fa fa-check-circle"
+									th:title="#{general.markallasread}" aria-hidden="true"></a></span> -->
+
+								<a href="javascript:void()" class="d-inline-block"> <span
+									class="badge badge-pill gradient-2"
+									th:text="${#lists.size(newnotifications)}"></span>
+								</a>
+							</div>
+							<div class="dropdown-content-body">
+								<ul th:each="notification: ${newnotifications}">
+									<li><a th:href="${notification.link}"> <span
+											class="mr-3 avatar-icon bg-success-lighten-2"><i
+												th:class="${notification.faIcon}"></i></span>
+											<div class="notification-content">
+												<h6 class="notification-heading"
+													th:text="${notification.header}"></h6>
+												<span class="notification-text"
+													th:text="${notification.message}"></span>
+											</div>
+									</a></li>
+								</ul>
+
+							</div>
+						</div></li>
+					<li class="icons dropdown">
+						<div class="user-img c-pointer position-relative"
+							data-toggle="dropdown">
+							<a style="color: darkblue" th:text="'  ' + ${loggedinuserfullname}"></a>
+							<a>&nbsp;&nbsp;</a><img
+								th:src="@{|/images/${loggedinuserimage}|}" height="40"
+								width="40" alt="">
+						</div>
+						<div
+							class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+							<div class="dropdown-content-body">
+								<ul>
+									<li><a th:href="@{/user/myprofile}"><i class="icon-user"></i>
+											<span th:text="#{topbar.profile}"></span></a></li>
+
+									<hr class="my-2">
+									<li><a href="/logout"><i class="icon-key"></i> <span
+											th:text="#{topbar.logout}"></span></a></li>
+								</ul>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

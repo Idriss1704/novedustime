@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title th:text="#{sidebar.teamlist}"></title>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16"
+	href="/webresources/images/favicon.png">
+<!-- Pignose Calender -->
+<link
+	href="/webresources/plugins/pg-calendar/css/pignose.calendar.min.css"
+	rel="stylesheet">
+<!-- Chartist -->
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist/css/chartist.min.css">
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+<!-- Custom Stylesheet -->
+<link href="/webresources/css/style.css" rel="stylesheet">
+<!-- fontawesome-free -->
+<link rel="stylesheet"
+	href="/webresources/vendor/fontawesome-free/css/all.css">
+<link href="/webresources/plugins/fullcalendar/css/fullcalendar.min.css"
+	rel="stylesheet">
+<link href="/webresources/plugins/sweetalert/css/sweetalert.css"
+	rel="stylesheet">
+
+<link
+	href="/webresources/plugins/tables/css/datatable/dataTables.bootstrap4.min.css"
+	rel="stylesheet">
+
+</head>
+
+<body>
+
+	<!--*******************
+        Preloader start
+    ********************-->
+	<div id="preloader">
+		<div class="loader">
+			<svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none"
+					stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+		</div>
+	</div>
+	<!--*******************
+        Preloader end
+    ********************-->
+
+
+	<!--**********************************
+        Main wrapper start
+    ***********************************-->
+	<div id="main-wrapper">
+
+		<!--**********************************
+            Nav header start
+        ***********************************-->
+		<div th:insert="navheader :: navheader"></div>
+		<!--**********************************
+            Nav header end
+        ***********************************-->
+
+		<!--**********************************
+            Header start
+        ***********************************-->
+		<div th:insert="header :: header"></div>
+		<!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+		<!--**********************************
+            Sidebar start
+        ***********************************-->
+		<div th:insert="sidebar :: sidebar"></div>
+		<!--**********************************
+            Sidebar end
+        ***********************************-->
+
+		<!--**********************************
+            Content body start
+        ***********************************-->
+		<div class="content-body">
+
+			<div class="row page-titles mx-0">
+				<div class="col p-md-0">
+					<h3 style="color: darkgreen" th:text="#{sidebar.teamlist}"></h3>
+				</div>
+			</div>
+			<!-- row -->
+
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<!-- <h4 class="card-title">Responsive Table</h4> -->
+						<div class="table-responsive">
+							<table class="table  table-bordered zero-configuration">
+								<thead>
+									<tr th:style="'color:orange'">
+										<th th:text="#{teamlist.teamlogo}"></th>
+										<th th:text="#{teamlist.teamname}"></th>
+										<th th:text="#{teamlist.teamid}"></th>
+										<th th:text="#{teamlist.leadername}"></th>
+										<th th:text="#{teamlist.hr}"></th>
+										<th th:text="#{teamlist.membercount}"></th>
+										<th th:text="#{teamlist.action}"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="team: ${teams}">
+										<td><img th:src="@{/viewimage/} + ${team.logoPath}"
+											alt="" height="42" /></td>
+										<td><span th:text="${team.name}"></span>&nbsp;&nbsp;<span
+											th:if="${team.comment != ''}" data-toggle="modal"
+											th:attr="data-target='#modalComment'+${team.id}"
+											data-target="#modalComment"><a data-toggle="tooltip"
+												data-placement="top" th:title="#{general.commentavailable}"
+												style="color: orange" class="fa fa-info-circle"></a></span>
+											<div class="modal fade" id="modalComment" role="dialog"
+												th:id="modalComment+${team.id }" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-body">
+															<h5 th:text="${team.name}"></h5>
+															<label for="message-text" class="col-form-label"
+																th:text="${team.comment}"></label>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-primary"
+																data-dismiss="modal" th:text="#{general.close}"></button>
+														</div>
+													</div>
+												</div>
+											</div></td>
+										<td th:text="${team.teamid}"></td>
+										<td
+											th:text="${team.leader != null} ? ${team.leader.getFullName()}"></td>
+										<td th:text="${team.hr != null} ? ${team.hr.getFullName()}"></td>
+										<td th:text="${#lists.size(team.members)}"></td>
+										<td>
+											<div class="bootstrap-modal">
+												<span><a type="button" data-toggle="tooltip"
+													th:href="@{/hr/editteam}+'/'+${team.id}"
+													data-placement="top" th:title="#{teamlist.edit}"
+													class="btn btn-primary btn-sm fa fa-edit"></a></span> <span><a
+													type="button" data-toggle="tooltip"
+													th:href="@{/hr/teamdetails}+'/'+${team.id}"
+													data-placement="top" th:title="#{teamlist.details}"
+													class="btn btn-primary btn-sm fa fa-info"></a></span> <span
+													data-toggle="modal"
+													th:attr="data-target='#modalDelete'+${team.id}"
+													data-target="#exampleModal" data-whatever="@getbootstrap"><button
+														type="button" class="btn btn-danger btn-sm fa fa-trash"
+														data-toggle="tooltip" data-placement="top"
+														th:title="#{teamlist.delete}"></button></span>
+												<div class="modal fade" id="modalDelete" role="dialog"
+													th:id="modalDelete+${team.id }" aria-hidden="true">
+													<form class="form-valide" action="#"
+														th:action="@{/hr/deleteteam}" method="post">
+														<div class="modal-dialog" role="document">
+															<div class="modal-content">
+																<div class="modal-body">
+																	<label for="message-text" class="col-form-label"
+																		th:text="'['+${team.name}+']'+ ' '+ #{teamlist.askfordelete}"></label>
+																	<input type="hidden" id="teamId" name="teamId"
+																		th:value="${team.id}">
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-secondary"
+																		data-dismiss="modal" th:text="#{general.cancel}"></button>
+																	<button type="submit" class="btn btn-primary"
+																		th:text="#{general.yes}"></button>
+																</div>
+															</div>
+														</div>
+													</form>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #/ container -->
+	</div>
+	<!--**********************************
+            Content body end
+        ***********************************-->
+
+
+	<!--**********************************
+            Footer start
+        ***********************************-->
+	<div th:insert="footer :: footer"></div>
+	<!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<script src="/webresources/plugins/common/common.min.js"></script>
+	<script src="/webresources/js/custom.min.js"></script>
+	<script src="/webresources/js/settings.js"></script>
+	<script src="/webresources/js/gleek.js"></script>
+	<script src="/webresources/js/styleSwitcher.js"></script>
+
+	<!-- Chartjs -->
+	<script src="/webresources/plugins/chart.js/Chart.bundle.min.js"></script>
+	<!-- Circle progress -->
+	<script
+		src="/webresources/plugins/circle-progress/circle-progress.min.js"></script>
+	<!-- Datamap -->
+	<script src="/webresources/plugins/d3v3/index.js"></script>
+	<script src="/webresources/plugins/topojson/topojson.min.js"></script>
+	<script src="/webresources/plugins/datamaps/datamaps.world.min.js"></script>
+	<!-- Morrisjs -->
+	<script src="/webresources/plugins/raphael/raphael.min.js"></script>
+	<script src="/webresources/plugins/morris/morris.min.js"></script>
+	<!-- Pignose Calender -->
+	<script src="/webresources/plugins/moment/moment.min.js"></script>
+	<script
+		src="/webresources/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+	<!-- ChartistJS -->
+	<script src="/webresources/plugins/chartist/js/chartist.min.js"></script>
+	<script
+		src="/webresources/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+	<!-- fontawesome-free -->
+	<script src="/webresources/vendor/fontawesome-free/js/all.js"></script>
+
+	<script src="/webresources/plugins/fullcalendar/js/fullcalendar.min.js"></script>
+	<script src="/webresources/js/plugins-init/fullcalendar-init.js"></script>
+	<script src="/webresources/js/dashboard/dashboard-1.js"></script>
+
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.min.js"></script>
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.init.js"></script>
+
+	<!-- fontawesome-free -->
+	<script src="/webresources/plugins/tables/js/jquery.dataTables.min.js"></script>
+	<script
+		src="/webresources/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+	<script
+		src="/webresources/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+
+</body>
+
+</html>

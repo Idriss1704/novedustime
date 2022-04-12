@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html th:lang="${lang}" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title th:text="#{general.home}"></title>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16"
+	href="/webresources/images/favicon.png">
+<!-- Pignose Calender -->
+<link
+	href="/webresources/plugins/pg-calendar/css/pignose.calendar.min.css"
+	rel="stylesheet">
+<!-- Chartist -->
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist/css/chartist.min.css">
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+<!-- Custom Stylesheet -->
+<link href="/webresources/css/style.css" rel="stylesheet">
+<!-- fontawesome-free -->
+<link rel="stylesheet"
+	href="/webresources/vendor/fontawesome-free/css/all.css">
+<link href="/webresources/plugins/fullcalendar/css/fullcalendar.min.css"
+	rel="stylesheet">
+
+</head>
+
+<body>
+
+	<!--*******************
+        Preloader start
+    ********************-->
+	<div id="preloader">
+		<div class="loader">
+			<svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none"
+					stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+		</div>
+	</div>
+	<!--*******************
+        Preloader end
+    ********************-->
+
+
+	<!--**********************************
+        Main wrapper start
+    ***********************************-->
+	<div id="main-wrapper">
+
+		<!--**********************************
+            Nav header start
+        ***********************************-->
+		<div th:insert="navheader :: navheader"></div>
+		<!--**********************************
+            Nav header end
+        ***********************************-->
+
+		<!--**********************************
+            Header start
+        ***********************************-->
+		<div th:insert="header :: header"></div>
+		<!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+		<!--**********************************
+            Sidebar start
+        ***********************************-->
+		<div th:insert="sidebar :: sidebar"></div>
+		<!--**********************************
+            Sidebar end
+        ***********************************-->
+
+		<!--**********************************
+            Content body start
+        ***********************************-->
+		<div class="content-body">
+
+			<div class="container-fluid mt-3" style="align: center">
+				<div class="row">
+					<div class="col-lg-2 col-sm-2">
+						<div class="card gradient-3">
+							<div class="card-body">
+								<h5 class=" text-white" th:text="#{index.workingtimemonth}"></h5>
+								<div class="d-inline-block">
+									<h5 class="text-white"
+										th:text="${currentworkingmonth.workingHours}"></h5>
+									<p class="text-white mb-0" th:text="#{general.hours}"></p>
+								</div>
+								<span class="float-right display-5 opacity-5"><i
+									class="fa fa-clock"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-2">
+						<div class="card gradient-2">
+							<div class="card-body">
+								<h5 class=" text-white" th:text="#{index.workingtimebalance}"></h5>
+								<div class="d-inline-block">
+									<h5 class="text-white" th:text="${loggedinuser.overtime}"></h5>
+									<p class="text-white mb-0" th:text="#{general.hours}"></p>
+								</div>
+								<span class="float-right display-5 opacity-5"><i
+									class="fa fa-business-time"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-2">
+						<div class="card gradient-1">
+							<div class="card-body">
+								<h5 class=" text-white" th:text="#{index.availablevacation}"></h5>
+								<div class="d-inline-block">
+									<h5 class="text-white" th:text="${restVacation}"></h5>
+									<p class="text-white mb-0" th:text="#{general.days}"></p>
+								</div>
+								<span class="float-right display-5 opacity-5"><i
+									class="fa fa-sun"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-2">
+						<div class="card gradient-7">
+							<div class="card-body">
+								<h5 class=" text-white" th:text="#{index.plannedvacation}"></h5>
+								<div class="d-inline-block">
+									<h5 class="text-white" th:text="${plannedVacation}"></h5>
+									<p class="text-white mb-0" th:text="#{general.days}"></p>
+								</div>
+								<span class="float-right display-5 opacity-5"><i
+									class="fa fa-sun"></i></span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+		<!-- #/ container -->
+	</div>
+	<!--**********************************
+            Content body end
+        ***********************************-->
+
+
+	<!--**********************************
+            Footer start
+        ***********************************-->
+	<div th:insert="footer :: footer"></div>
+	<!--**********************************
+            Footer end
+        ***********************************-->
+	<!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<script src="/webresources/plugins/common/common.min.js"></script>
+	<script src="/webresources/js/custom.min.js"></script>
+	<script src="/webresources/js/settings.js"></script>
+	<script src="/webresources/js/gleek.js"></script>
+	<script src="/webresources/js/styleSwitcher.js"></script>
+
+	<!-- Chartjs -->
+	<script src="/webresources/plugins/chart.js/Chart.bundle.min.js"></script>
+	<!-- Circle progress -->
+	<script
+		src="/webresources/plugins/circle-progress/circle-progress.min.js"></script>
+	<!-- Datamap -->
+	<script src="/webresources/plugins/d3v3/index.js"></script>
+	<script src="/webresources/plugins/topojson/topojson.min.js"></script>
+	<script src="/webresources/plugins/datamaps/datamaps.world.min.js"></script>
+	<!-- Morrisjs -->
+	<script src="/webresources/plugins/raphael/raphael.min.js"></script>
+	<script src="/webresources/plugins/morris/morris.min.js"></script>
+	<!-- Pignose Calender -->
+	<script src="/webresources/plugins/moment/moment.min.js"></script>
+	<script
+		src="/webresources/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+	<!-- ChartistJS -->
+	<script src="/webresources/plugins/chartist/js/chartist.min.js"></script>
+	<script
+		src="/webresources/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+	<!-- fontawesome-free -->
+	<script src="/webresources/vendor/fontawesome-free/js/all.js"></script>
+
+	<script src="/webresources/plugins/fullcalendar/js/fullcalendar.min.js"></script>
+	<script src="/webresources/js/plugins-init/fullcalendar-init.js"></script>
+	<script src="/webresources/js/dashboard/dashboard-1.js"></script>
+
+</body>
+
+</html>

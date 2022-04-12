@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div th:fragment="sidebar" class="nk-sidebar">
+		<div class="nk-sidebar">
+			<div class="nk-nav-scroll">
+				<ul class="metismenu" id="menu">
+					<li class="nav-label" th:text="#{sidebar.workingtimegroup}"></li>
+					<li><a class=""
+						th:href="@{/user/workingtime}+'/'+${#dates.year(#dates.createNow())}+'/'+${#dates.month(#dates.createNow())}"
+						aria-expanded="false"> <i
+							class="far fa-calendar-alt menu-icon"></i><span class="nav-text"
+							th:text="#{sidebar.recordtime}"></span>
+					</a></li>
+					<li class="mega-menu mega-menu-sm"><a class=""
+						href="/user/requestabsence" aria-expanded="false"> <i
+							class="far fa-calendar-times menu-icon"></i><span
+							class="nav-text" th:text="#{sidebar.requestabsence}"></span>
+					</a></li>
+					<!--  li class="mega-menu mega-menu-sm"><a class=""
+						href="/user/requestpresence" aria-expanded="false"> <i
+							class="far fa-calendar-plus menu-icon"></i><span class="nav-text"
+							th:text="#{sidebar.requestpresence}"></span>
+					</a></li -->
+					<li class="mega-menu mega-menu-sm"><a class=""
+						href="/user/preferences" aria-expanded="false"> <i
+							class="fa fa-cog menu-icon"></i><span class="nav-text"
+							th:text="#{sidebar.preferences}"></span>
+					</a></li>
+					<li class="nav-label"></li>
+					<li class="nav-label" th:text="#{sidebar.reportsgroup}"></li>
+					<li class="mega-menu mega-menu-sm"><a class=""
+						href="javascript:void()" aria-expanded="false"> <i
+							class="far fa-calendar-plus menu-icon"></i><span class="nav-text"
+							th:text="#{sidebar.personalcalendar}"></span>
+					</a></li>
+					<li class="nav-label"></li>
+					<li
+						th:if="${loggedinuserrole.getRank() >= loggedinuserrole.getRank('ROLE_TEAMLEAD')}"
+						class="nav-label" th:text="#{sidebar.admingroup}"></li>
+					<li
+						th:if="${loggedinuserrole.getRank() >= loggedinuserrole.getRank('ROLE_TEAMLEAD')}"
+						class="mega-menu mega-menu-sm"><a class="has-arrow"
+						href="javascript:void()" aria-expanded="false"> <i
+							class="fas fa-file-signature menu-icon"></i><span
+							class="nav-text" th:text="#{sidebar.managerequests}"></span>
+					</a>
+						<ul aria-expanded="false">
+							<li><a href="#" th:text="#{sidebar.requestlist}"></a></li>
+							<li><a href="#" th:text="#{sidebar.newuserabsence}"></a></li>
+							<li><a href="#" th:text="#{sidebar.newuserpresence}"></a></li>
+						</ul></li>
+					<li
+						th:if="${loggedinuserrole.getRank() >= loggedinuserrole.getRank('ROLE_HR')}"
+						class="mega-menu mega-menu-sm"><a class="has-arrow"
+						href="javascript:void()" aria-expanded="false"> <i
+							class="fa fa-users menu-icon"></i><span class="nav-text"
+							th:text="#{sidebar.manageusers}"></span>
+					</a>
+						<ul aria-expanded="true">
+							<li><a href="/hr/userlist" th:text="#{sidebar.userlist}"></a></li>
+							<li><a href="/hr/newuser" th:text="#{sidebar.newuser}"></a></li>
+
+						</ul></li>
+					<li
+						th:if="${loggedinuserrole.getRank() >= loggedinuserrole.getRank('ROLE_HR')}"
+						class="mega-menu mega-menu-sm"><a class="has-arrow"
+						href="javascript:void()" aria-expanded="false"> <i
+							class="fa fa-users menu-icon"></i><span class="nav-text"
+							th:text="#{sidebar.manageteams}"></span>
+					</a>
+						<ul aria-expanded="true">
+							<li><a href="/hr/teamlist" th:text="#{sidebar.teamlist}"></a></li>
+							<li><a href="/hr/newteam" th:text="#{sidebar.newteam}"></a></li>
+
+						</ul></li>
+					<li
+						th:if="${loggedinuserrole.getRank() >= loggedinuserrole.getRank('ROLE_HR')}"
+						class="mega-menu mega-menu-sm"><a class="has-arrow"
+						href="javascript:void()" aria-expanded="false"> <i
+							class="fas fa-file-contract menu-icon"></i><span class="nav-text"
+							th:text="#{sidebar.manageprojects}"></span>
+					</a>
+						<ul aria-expanded="false">
+							<li><a href="/hr/projectlist"
+								th:text="#{sidebar.projectlist}"></a></li>
+							<li><a href="/hr/newproject" th:text="#{sidebar.newproject}"></a></li>
+
+						</ul></li>
+					<li
+						th:if="${loggedinuserrole.getRank() >= loggedinuserrole.getRank('ROLE_HR')}"
+						class="mega-menu mega-menu-sm"><a class="has-arrow"
+						href="javascript:void()" aria-expanded="false"> <i
+							class="fas fa-calendar-alt menu-icon"></i><span class="nav-text"
+							th:text="#{sidebar.manageabsences}"></span>
+					</a>
+						<ul aria-expanded="false">
+							<li><a href="/hr/absencetypelist"
+								th:text="#{sidebar.absencelist}"></a></li>
+							<li><a href="/hr/newabsencetype"
+								th:text="#{sidebar.newabsence}"></a></li>
+
+						</ul></li>
+					<!--  li
+						th:if="${loggedinuserrole.getRank() >= loggedinuserrole.getRank('ROLE_HR')}"
+						class="mega-menu mega-menu-sm"><a class="has-arrow"
+						href="javascript:void()" aria-expanded="false"> <i
+							class="fas fa-calendar-alt menu-icon"></i><span class="nav-text"
+							th:text="#{sidebar.managepresences}"></span>
+					</a>
+						<ul aria-expanded="false">
+							<li><a href="/hr/presencetypelist"
+								th:text="#{sidebar.presencelist}"></a></li>
+							<li><a href="/hr/newpresencetype"
+								th:text="#{sidebar.newpresence}"></a></li>
+
+						</ul></li -->
+
+					<li
+						th:if="${loggedinuserrole.getRank() >= loggedinuserrole.getRank('ROLE_ADMIN')}"
+						class="mega-menu mega-menu-sm"><a href="/admin/preferences"
+						aria-expanded="false"> <i class="fa fa-cog menu-icon"></i><span
+							class="nav-text" th:text="#{sidebar.config}"></span>
+					</a></li>
+
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

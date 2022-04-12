@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title th:text="#{sidebar.newuser}"></title>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16"
+	href="/webresources/images/favicon.png">
+<!-- Pignose Calender -->
+<link
+	href="/webresources/plugins/pg-calendar/css/pignose.calendar.min.css"
+	rel="stylesheet">
+<!-- Chartist -->
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist/css/chartist.min.css">
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+<!-- Custom Stylesheet -->
+<link href="/webresources/css/style.css" rel="stylesheet">
+<!-- fontawesome-free -->
+<link rel="stylesheet"
+	href="/webresources/vendor/fontawesome-free/css/all.css">
+<link href="/webresources/plugins/fullcalendar/css/fullcalendar.min.css"
+	rel="stylesheet">
+
+<link href="/webresources/plugins/select2/css/select2.min.css"
+	rel="stylesheet">
+
+</head>
+
+<body>
+
+	<!--*******************
+        Preloader start
+    ********************-->
+	<div id="preloader">
+		<div class="loader">
+			<svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none"
+					stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+		</div>
+	</div>
+	<!--*******************
+        Preloader end
+    ********************-->
+
+
+	<!--**********************************
+        Main wrapper start
+    ***********************************-->
+	<div id="main-wrapper">
+
+		<!--**********************************
+            Nav header start
+        ***********************************-->
+		<div th:insert="navheader :: navheader"></div>
+		<!--**********************************
+            Nav header end
+        ***********************************-->
+
+		<!--**********************************
+            Header start
+        ***********************************-->
+		<div th:insert="header :: header"></div>
+		<!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+		<!--**********************************
+            Sidebar start
+        ***********************************-->
+		<div th:insert="sidebar :: sidebar"></div>
+		<!--**********************************
+            Sidebar end
+        ***********************************-->
+
+		<!--**********************************
+            Content body start
+        ***********************************-->
+		<div class="content-body">
+
+			<div class="row page-titles mx-0">
+				<div class="col p-md-0">
+					<h3 style="color: skyblue"
+						th:text="${user.id <= 0} ? #{sidebar.newuser} : #{sidebar.edituser}"></h3>
+				</div>
+			</div>
+			<!-- row -->
+
+			<div class="container-fluid">
+				<div class="row justify-content-center">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-validation">
+									<form class="form-valide" action="#" th:action="@{/hr/newuser}"
+										th:object="${user}" method="post"
+										enctype="multipart/form-data">
+										<input type="hidden" class="form-control" th:field="*{id}" />
+										<input type="hidden" class="form-control"
+											th:field="*{alreadyUsed}" /> <input type="hidden"
+											class="form-control" th:field="*{imgPath}" /> <input
+											type="hidden" class="form-control" th:field="*{teamId}" />
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.gender} + ' *'"> </label>
+											<div class="col-lg-6">
+												<select class="form-control" th:field="*{gender}"
+													th:required="required">
+													<option value="" th:text="#{general.pleaseselect}"></option>
+													<option value="M" th:text="#{newuser.gendermr}"></option>
+													<option value="F" th:text="#{newuser.gendermrs}"></option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.username} + ' *'"> </label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control"
+													th:field="*{userName}" th:required="required"
+													th:placeholder="#{newuser.usernameplholder}" />
+												<div class="alert alert-danger"
+													th:if="${#fields.hasErrors('userName')}"
+													th:errors="*{userName}"></div>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.firstname}"> </label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control"
+													th:field="*{firstName}"
+													th:placeholder="#{newuser.firstnameplholder}" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.lastname} + ' *'"> </label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control"
+													th:field="*{lastName}" th:required="required"
+													th:placeholder="#{newuser.lastnameplholder}" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.email} + ' *'"> </label>
+											<div class="col-lg-6">
+												<input type="email" class="form-control" th:field="*{email}"
+													th:required="required"
+													th:placeholder="#{newuser.emailplholder}" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.tel} + ' *'"> </label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control"
+													th:field="*{telephone}" th:required="required"
+													th:placeholder="#{newuser.telplholder}" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.role} + ' *'"> </label>
+											<div class="col-lg-6">
+												<select class="form-control" th:field="*{roleName}"
+													th:required="required">
+													<option value="ROLE_USER" th:text="#{newuser.roleuser}"></option>
+													<option value="ROLE_TEAMLEAD"
+														th:text="#{newuser.roleteamlead}"></option>
+													<option value="ROLE_HR" th:text="#{newuser.rolehr}"></option>
+													<option
+														th:if="${loggedinuserrole.roleName == 'ROLE_ADMIN'}"
+														value="ROLE_ADMIN" th:text="#{newuser.roleadmin}"></option>
+												</select>
+												<div class="alert alert-danger"
+													th:if="${#fields.hasErrors('roleName')}"
+													th:text="#{error.deletelastadmin}"></div>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{general.workingdays}"> </label>
+											<div class="col-lg-6">
+												<select id="daysOfWeek"
+													class="form-control select2-multiple"
+													th:field="*{dayOfWeekIds}" multiple="multiple">
+													<option th:each="day : ${user.daysOfWeek}"
+														th:value="${day.number}" th:text="#{${day.name}}"
+														th:selected="${#lists.contains(user.dayOfWeekIds,day.number)}">
+													</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.hoursperday}"> </label>
+											<div class="col-lg-6">
+												<input type="number" class="form-control"
+													th:field="*{dayHours}"
+													th:placeholder="#{newuser.hoursperdayplholder}" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.vacationcount}"> </label>
+											<div class="col-lg-6">
+												<input type="number" class="form-control"
+													th:field="*{vacationCount}"
+													th:placeholder="#{newuser.vacationcountplholder}" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label" for="val-email"
+												th:text="#{newuser.restvacation}"> </label>
+											<div class="col-lg-6">
+												<input type="number" class="form-control"
+													th:field="*{restVacation}"
+													th:placeholder="#{newuser.restvacationplholder}" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.image}"> </label>
+											<div class="col-lg-6">
+												<input type="file" class="form-control" th:field="*{image}">
+												<div class="alert alert-danger"
+													th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></div>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.active}"> </label>
+											<div class="col-lg-6">
+												<input type="checkbox" name="active"
+													th:checked="${user.active}" th:field="*{active}" />
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newuser.comment}"> </label>
+											<div class="col-lg-6">
+												<textarea class="form-control" th:field="*{comment}"
+													rows="2" th:placeholder="#{newuser.commentplholder}"></textarea>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<div class="col-lg-8 ml-auto">
+												<button type="submit" class="btn btn-primary"
+													th:text="#{general.submit}"></button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #/ container -->
+	</div>
+	<!--**********************************
+            Content body end
+        ***********************************-->
+
+
+	<!--**********************************
+            Footer start
+        ***********************************-->
+	<div th:insert="footer :: footer"></div>
+	<!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<script src="/webresources/plugins/common/common.min.js"></script>
+	<script src="/webresources/js/custom.min.js"></script>
+	<script src="/webresources/js/settings.js"></script>
+	<script src="/webresources/js/gleek.js"></script>
+	<script src="/webresources/js/styleSwitcher.js"></script>
+
+	<!-- Chartjs -->
+	<script src="/webresources/plugins/chart.js/Chart.bundle.min.js"></script>
+	<!-- Circle progress -->
+	<script
+		src="/webresources/plugins/circle-progress/circle-progress.min.js"></script>
+	<!-- Datamap -->
+	<script src="/webresources/plugins/d3v3/index.js"></script>
+	<script src="/webresources/plugins/topojson/topojson.min.js"></script>
+	<script src="/webresources/plugins/datamaps/datamaps.world.min.js"></script>
+	<!-- Morrisjs -->
+	<script src="/webresources/plugins/raphael/raphael.min.js"></script>
+	<script src="/webresources/plugins/morris/morris.min.js"></script>
+	<!-- Pignose Calender -->
+	<script src="/webresources/plugins/moment/moment.min.js"></script>
+	<script
+		src="/webresources/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+	<!-- ChartistJS -->
+	<script src="/webresources/plugins/chartist/js/chartist.min.js"></script>
+	<script
+		src="/webresources/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+	<!-- fontawesome-free -->
+	<script src="/webresources/vendor/fontawesome-free/js/all.js"></script>
+
+	<script src="/webresources/plugins/fullcalendar/js/fullcalendar.min.js"></script>
+	<script src="/webresources/js/plugins-init/fullcalendar-init.js"></script>
+	<script src="/webresources/js/dashboard/dashboard-1.js"></script>
+
+	<script src="/webresources/plugins/select2/js/select2.full.min.js"></script>
+
+	<script th:inline="javascript">
+		$("#daysOfWeek").select2({
+			ajax : {
+				url : '/getWeekDays/' + [[${#locale}]],
+				dataType : 'json',
+				delay : 250,
+				processResults : function(response) {
+					return {
+						results : $.map(response, function(obj) {
+							return {
+								id : obj.number,
+								text : obj.displayName
+							};
+						})
+					};
+				},
+				cache : true
+			}
+		});
+	</script>	
+	
+
+</body>
+
+</html>

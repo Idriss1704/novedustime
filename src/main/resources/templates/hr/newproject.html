@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title th:text="#{sidebar.newproject}"></title>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16"
+	href="/webresources/images/favicon.png">
+<link
+	href="/webresources/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+	rel="stylesheet">
+<!-- Page plugins css -->
+<link
+	href="/webresources/plugins/clockpicker/dist/jquery-clockpicker.min.css"
+	rel="stylesheet">
+<!-- Color picker plugins css -->
+<link
+	href="/webresources/plugins/jquery-asColorPicker-master/css/asColorPicker.css"
+	rel="stylesheet">
+<!-- Date picker plugins css -->
+<link
+	href="/webresources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css"
+	rel="stylesheet">
+<!-- Daterange picker plugins css -->
+<link
+	href="/webresources/plugins/timepicker/bootstrap-timepicker.min.css"
+	rel="stylesheet">
+<link
+	href="/webresources/plugins/bootstrap-daterangepicker/daterangepicker.css"
+	rel="stylesheet">
+
+<link href="/webresources/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<!--*******************
+        Preloader start
+    ********************-->
+	<div id="preloader">
+		<div class="loader">
+			<svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none"
+					stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+		</div>
+	</div>
+	<!--*******************
+        Preloader end
+    ********************-->
+
+
+	<!--**********************************
+        Main wrapper start
+    ***********************************-->
+	<div id="main-wrapper">
+
+		<!--**********************************
+            Nav header start
+        ***********************************-->
+		<div th:insert="navheader :: navheader"></div>
+		<!--**********************************
+            Nav header end
+        ***********************************-->
+
+		<!--**********************************
+            Header start
+        ***********************************-->
+		<div th:insert="header :: header"></div>
+		<!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+		<!--**********************************
+            Sidebar start
+        ***********************************-->
+		<div th:insert="sidebar :: sidebar"></div>
+		<!--**********************************
+            Sidebar end
+        ***********************************-->
+
+		<!--**********************************
+            Content body start
+        ***********************************-->
+		<div class="content-body">
+
+			<div class="row page-titles mx-0">
+				<div class="col p-md-0">
+					<h3 style="color: skyblue"
+						th:text="${project.id <= 0} ? #{sidebar.newproject} : #{sidebar.editproject}"></h3>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="container-fluid">
+				<div class="row justify-content-center">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="form-validation">
+									<form class="form-valide" action="#"
+										th:action="@{/hr/newproject}" th:object="${project}"
+										method="post">
+										<input type="hidden" class="form-control" th:field="*{id}" />
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newproject.projectname} +' *'"></label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control"
+													th:field="*{projectName}" th:required="required"
+													th:placeholder="#{newproject.projectnameplholder}" />
+												<div class="alert alert-danger"
+													th:if="${#fields.hasErrors('projectName')}"
+													th:errors="*{projectName}"></div>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newproject.accountid}"> </label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control"
+													th:field="*{accountID}"
+													th:placeholder="#{newproject.accountidplholder}" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newproject.projectid}"> </label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control"
+													th:field="*{projectID}"
+													th:placeholder="#{newproject.projectidplholder}"></input>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{general.color}"> </label>
+											<div class="col-lg-6">
+												<input type="text" name="color"
+													class="colorpicker form-control" th:field="*{color}" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newproject.active}"> </label>
+											<div class="col-lg-6">
+												<input type="checkbox" name="active"
+													th:checked="${project.enabled}" th:field="*{enabled}" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-lg-4 col-form-label"
+												th:text="#{newproject.comment}"> </label>
+											<div class="col-lg-6">
+												<textarea class="form-control" th:field="*{comment}"
+													rows="1" th:placeholder="#{newproject.commentplholder}"></textarea>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<div class="col-lg-8 ml-auto">
+												<button type="submit" class="btn btn-primary"
+													th:text="#{general.submit}"></button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #/ container -->
+	</div>
+	<!--**********************************
+            Content body end
+        ***********************************-->
+
+
+	<!--**********************************
+            Footer start
+        ***********************************-->
+	<div th:insert="footer :: footer"></div>
+	<!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<script src="/webresources/plugins/common/common.min.js"></script>
+	<script src="/webresources/js/custom.min.js"></script>
+	<script src="/webresources/js/settings.js"></script>
+	<script src="/webresources/js/gleek.js"></script>
+	<script src="/webresources/js/styleSwitcher.js"></script>
+
+	<script src="/webresources/plugins/moment/moment.js"></script>
+	<script
+		src="/webresources/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+	<!-- Clock Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+	<!-- Color Picker Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+	<!-- Date Picker Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<!-- Date range Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+	<script
+		src="/webresources/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+	<script src="/webresources/js/plugins-init/form-pickers-init.js"></script>
+
+</body>
+
+</html>

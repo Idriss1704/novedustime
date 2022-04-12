@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NovedusTime</title>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16"
+	href="/webresources/images/favicon.png">
+<link th:href="@{/webresources/css/style.css}" rel="stylesheet">
+</head>
+<body class="h-100"
+	th:style="${basicdata.bgImagePath} != '' ? 'background-image:url(' + @{/viewimage/} + ${basicdata.bgImagePath} +  ');'">
+
+	<div class="login-form-bg h-100">
+		<div class="container h-100">
+			<div class="row justify-content-center h-100">
+				<div class="col-xl-6">
+					<div class="form-input-content">
+						<div class="card login-form mb-0">
+							<div class="card-body pt-5">
+								<a href="index.html"> <img
+									src="/webresources/images/logo-compact.png" alt="">
+								</a>
+								<div style="color: red" align="center" th:if="${param.error}"
+									th:text="#{invalid_login}"></div>
+								<div style="color: green" align="center" th:if="${param.logout}"
+									th:text="#{logout_success}"></div>
+								<form class="mt-5 mb-5 login-input" th:action="@{/login}"
+									method="post">
+									<div class="form-group">
+										<input type="text" name="username" class="form-control"
+											th:placeholder="#{username}">
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" class="form-control"
+											th:placeholder="#{password}">
+									</div>
+									<button type="submit" class="btn login-form__btn submit w-100"
+										th:text="#{login}"></button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<script th:src="@{/webresources/plugins/common/common.min.js}"></script>
+	<script th:src="@{/webresources/js/custom.min.js}"></script>
+	<script th:src="@{/webresources/js/settings.js}"></script>
+	<script th:src="@{/webresources/js/gleek.js}"></script>
+	<script th:src="@{/webresources/js/styleSwitcher.js}"></script>
+</body>
+</html>
+
+
+
+
+

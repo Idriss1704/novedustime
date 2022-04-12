@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title th:text="#{sidebar.requestabsence}"></title>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16"
+	href="/webresources/images/favicon.png">
+<!-- Pignose Calender -->
+<link
+	href="/webresources/plugins/pg-calendar/css/pignose.calendar.min.css"
+	rel="stylesheet">
+<!-- Chartist -->
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist/css/chartist.min.css">
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+<!-- Custom Stylesheet -->
+<link href="/webresources/css/style.css" rel="stylesheet">
+<!-- fontawesome-free -->
+<link rel="stylesheet"
+	href="/webresources/vendor/fontawesome-free/css/all.css">
+<link href="/webresources/plugins/fullcalendar/css/fullcalendar.min.css"
+	rel="stylesheet">
+<link href="/webresources/plugins/sweetalert/css/sweetalert.css"
+	rel="stylesheet">
+
+<!-- Custom Stylesheet -->
+<link
+	href="/webresources/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+	rel="stylesheet">
+<!-- Page plugins css -->
+<link
+	href="/webresources/plugins/clockpicker/dist/jquery-clockpicker.min.css"
+	rel="stylesheet">
+<!-- Color picker plugins css -->
+<link
+	href="/webresources/plugins/jquery-asColorPicker-master/css/asColorPicker.css"
+	rel="stylesheet">
+<!-- Date picker plugins css -->
+<link
+	href="/webresources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css"
+	rel="stylesheet">
+<!-- Daterange picker plugins css -->
+<link
+	href="/webresources/plugins/timepicker/bootstrap-timepicker.min.css"
+	rel="stylesheet">
+<link
+	href="/webresources/plugins/bootstrap-daterangepicker/daterangepicker.css"
+	rel="stylesheet">
+
+<link
+	href="/webresources/plugins/tables/css/datatable/dataTables.bootstrap4.min.css"
+	rel="stylesheet">
+
+</head>
+
+<body>
+
+	<!--*******************
+        Preloader start
+    ********************-->
+	<div id="preloader">
+		<div class="loader">
+			<svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none"
+					stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+		</div>
+	</div>
+	<!--*******************
+        Preloader end
+    ********************-->
+
+
+	<!--**********************************
+        Main wrapper start
+    ***********************************-->
+	<div id="main-wrapper">
+
+		<!--**********************************
+            Nav header start
+        ***********************************-->
+		<div th:insert="navheader :: navheader"></div>
+		<!--**********************************
+            Nav header end
+        ***********************************-->
+
+		<!--**********************************
+            Header start
+        ***********************************-->
+		<div th:insert="header :: header"></div>
+		<!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+		<!--**********************************
+            Sidebar start
+        ***********************************-->
+		<div th:insert="sidebar :: sidebar"></div>
+		<!--**********************************
+            Sidebar end
+        ***********************************-->
+
+		<!--**********************************
+            Content body start
+        ***********************************-->
+		<div class="content-body">
+
+			<div class="row page-titles mx-0">
+				<div class="col p-md-0">
+					<h3 style="color: skyblue" th:text="#{sidebar.requestabsence}"></h3>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="col-lg-12">
+				<div class="col-lg-2 col-sm-2">
+					<div class="card gradient-7">
+						<div class="card-body">
+							<h5 class="text-white"
+								th:text="#{requestabsence.availablevacation}"></h5>
+							<div class="d-inline-block">
+								<h5 class="text-white"
+									th:text="${restVacation} + ' ' + #{general.days}"></h5>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div th:if="${error == true}">
+						&nbsp;&nbsp;<p style="color: white; background-color:red" th:text="#{${errormessage}}"></p>
+					</div>
+					<div class="card-body">
+						<form class="form-valide" action="#"
+							th:action="@{/user/requestabsence}" th:object="${absence}"
+							method="post">
+							<input type="hidden" class="form-control" th:field="*{id}" />
+							<div class="row">
+								<div class="col-md-2">
+									<div class="">
+										<h5 class="box-title m-t-30" style="color: orange"
+											th:text="#{requestabsence.category}"></h5>
+										<select class="form-control" th:field="*{absenceTypeId}"
+											th:required="required">
+											<option th:each="absencetype: ${absencetypes}"
+												th:value="${absencetype.getId()}"><th:block>
+													<span class="label"
+														th:style="|background-color: ${absencetype.color}|">&nbsp;&nbsp;</span>
+													<span th:selected="${project == currentdate}?: 'selected'">
+														<th:block th:switch="${absencetype.vacation}">
+															<span th:case="true" th:text="#{${absencetype.name}}"></span>
+															<span th:case="false" th:text="${absencetype.name}"></span>
+														</th:block>
+													</span>
+												</th:block></option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="example">
+										<h5 class="box-title m-t-30 " style="color: orange"
+											th:text="#{requestabsence.period}"></h5>
+										<input type="text" th:field="*{dateRange}"
+											class="form-control input-daterange-datepicker"
+											name="daterange">
+									</div>
+								</div>
+								<div class="col-md-2">
+									<h5>&nbsp;</h5>
+									<div class="example">
+										<a type="button" class="btn btn-success"> <span
+											th:text="#{requestabsence.check}"></span><span>&nbsp;</span><i></i>
+										</a>
+										<button type="submit" class="btn btn-primary">
+											<span th:text="#{requestabsence.sendrequest}"></span><span>&nbsp;</span><i></i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<!-- <h4 class="card-title">Responsive Table</h4> -->
+						<div class="table-responsive">
+							<div class="pull-left">
+								<h5 th:text="#{requestabsence.history}" style="color: orange"></h5>
+
+							</div>
+							<table class="table table-bordered zero-configuration">
+								<thead>
+									<tr>
+										<th th:text="#{requestabsence.date}"></th>
+										<th th:text="#{requestabsence.firstday}"></th>
+										<th th:text="#{requestabsence.lastday}"></th>
+										<th th:text="#{requestabsence.category}"></th>
+										<th th:text="#{requestabsence.workingdays}"></th>
+										<th th:text="#{requestabsence.status}"></th>
+										<th th:text="#{requestabsence.action}"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="userabsence: ${absences}">
+										<td><span class="text-muted"
+											th:text="${util.dateToLongString(userabsence.getDate())}"></span></td>
+										<td
+											th:text="${util.dateToLongString(userabsence.getStartDate())}"></td>
+										<td
+											th:text="${util.dateToLongString(userabsence.getEndDate())}"></td>
+
+										<td><th:block
+												th:switch="${userabsence.getType().vacation}">
+												<span th:case="true"
+													th:text="#{${userabsence.getType().name}}"></span>
+												<span th:case="false"
+													th:text="${userabsence.getType().name}"></span>
+											</th:block></td>
+
+
+										<td th:text="${userabsence.getWorkingsDays()}"></td>
+										<td><span
+											th:if="${userabsence.status == T(bf.novedus.novedustime.enums.RequestStatus).OPEN}"
+											class="label label-info" th:text="#{general.statusopen}"></span>
+											<span
+											th:if="${userabsence.status == T(bf.novedus.novedustime.enums.RequestStatus).REFUSED}"
+											class="label label-danger" th:text="#{general.statusrefused}"></span>
+											<span
+											th:if="${userabsence.status == T(bf.novedus.novedustime.enums.RequestStatus).IN_PROGRESS}"
+											class="label label-warning"
+											th:text="#{general.statusinapprovment}"></span> <span
+											th:if="${userabsence.status == T(bf.novedus.novedustime.enums.RequestStatus).APPROVED}"
+											class="label label-success"
+											th:text="#{general.statusapproved}"></span></td>
+										<td>
+											<div class="bootstrap-modal">
+												<span><a type="button" data-toggle="tooltip"
+													th:href="@{/user/editabsence}+'/'+${userabsence.getId()}"
+													data-placement="top" th:title="#{requestabsence.edit}"
+													class="btn btn-primary btn-sm fa fa-edit"></a></span> <span
+													data-toggle="modal"
+													th:attr="data-target='#deleteModal'+${userabsence.id}"
+													data-target="#deleteModal" data-whatever="@getbootstrap">
+													<button type="button"
+														class="btn btn-danger btn-sm fa fa-trash"
+														data-toggle="tooltip" data-placement="top"
+														th:title="#{requestabsence.delete}"></button>
+												</span>
+												<div class="modal fade" id="deleteModal" tabindex="-1"
+													role="dialog" th:id="deleteModal+${userabsence.id}"
+													aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-body">
+
+																<div class="form-group">
+																	<label for="message-text" class="col-form-label"
+																		th:text="#{general.askbeforedelete}"> </label>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary"
+																	data-dismiss="modal" th:text="#{general.cancel}"></button>
+																<a type="button" class="btn btn-primary"
+																	th:href="@{/user/deleteabsence}+'/'+${userabsence.getId()}"
+																	th:text="#{general.yes}"></a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #/ container -->
+	</div>
+	<!--**********************************
+            Content body end
+        ***********************************-->
+
+
+	<!--**********************************
+            Footer start
+        ***********************************-->
+	<div th:insert="footer :: footer"></div>
+	<!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<script src="/webresources/plugins/common/common.min.js"></script>
+	<script src="/webresources/js/custom.min.js"></script>
+	<script src="/webresources/js/settings.js"></script>
+	<script src="/webresources/js/gleek.js"></script>
+	<script src="/webresources/js/styleSwitcher.js"></script>
+
+	<!-- Chartjs -->
+	<script src="/webresources/plugins/chart.js/Chart.bundle.min.js"></script>
+	<!-- Circle progress -->
+	<script
+		src="/webresources/plugins/circle-progress/circle-progress.min.js"></script>
+	<!-- Datamap -->
+	<script src="/webresources/plugins/d3v3/index.js"></script>
+	<script src="/webresources/plugins/topojson/topojson.min.js"></script>
+	<script src="/webresources/plugins/datamaps/datamaps.world.min.js"></script>
+	<!-- Morrisjs -->
+	<script src="/webresources/plugins/raphael/raphael.min.js"></script>
+	<script src="/webresources/plugins/morris/morris.min.js"></script>
+	<!-- Pignose Calender -->
+	<script src="/webresources/plugins/moment/moment.min.js"></script>
+	<script
+		src="/webresources/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+	<!-- ChartistJS -->
+	<script src="/webresources/plugins/chartist/js/chartist.min.js"></script>
+	<script
+		src="/webresources/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+	<!-- fontawesome-free -->
+	<script src="/webresources/vendor/fontawesome-free/js/all.js"></script>
+
+	<script src="/webresources/plugins/fullcalendar/js/fullcalendar.min.js"></script>
+	<script src="/webresources/js/plugins-init/fullcalendar-init.js"></script>
+	<script src="/webresources/js/dashboard/dashboard-1.js"></script>
+
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.min.js"></script>
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.init.js"></script>
+
+	<script src="/webresources/plugins/moment/moment.js"></script>
+	<script
+		src="/webresources/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+	<!-- Clock Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+	<!-- Color Picker Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+	<!-- Date Picker Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<!-- Date range Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+	<script
+		src="/webresources/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+	<script src="/webresources/js/plugins-init/form-pickers-init.js"></script>
+
+	<script src="/webresources/plugins/tables/js/jquery.dataTables.min.js"></script>
+	<script
+		src="/webresources/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+	<script
+		src="/webresources/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+
+</body>
+
+</html>

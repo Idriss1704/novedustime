@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title th:text="#{sidebar.presencelist}"></title>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16"
+	href="/webresources/images/favicon.png">
+<!-- Pignose Calender -->
+<link
+	href="/webresources/plugins/pg-calendar/css/pignose.calendar.min.css"
+	rel="stylesheet">
+<!-- Chartist -->
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist/css/chartist.min.css">
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+<!-- Custom Stylesheet -->
+<link href="/webresources/css/style.css" rel="stylesheet">
+<!-- fontawesome-free -->
+<link rel="stylesheet"
+	href="/webresources/vendor/fontawesome-free/css/all.css">
+<link href="/webresources/plugins/fullcalendar/css/fullcalendar.min.css"
+	rel="stylesheet">
+<link href="/webresources/plugins/sweetalert/css/sweetalert.css"
+	rel="stylesheet">
+
+<link
+	href="/webresources/plugins/tables/css/datatable/dataTables.bootstrap4.min.css"
+	rel="stylesheet">
+
+</head>
+
+<body>
+
+	<!--*******************
+        Preloader start
+    ********************-->
+	<div id="preloader">
+		<div class="loader">
+			<svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none"
+					stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+		</div>
+	</div>
+	<!--*******************
+        Preloader end
+    ********************-->
+
+
+	<!--**********************************
+        Main wrapper start
+    ***********************************-->
+	<div id="main-wrapper">
+
+		<!--**********************************
+            Nav header start
+        ***********************************-->
+		<div th:insert="navheader :: navheader"></div>
+		<!--**********************************
+            Nav header end
+        ***********************************-->
+
+		<!--**********************************
+            Header start
+        ***********************************-->
+		<div th:insert="header :: header"></div>
+		<!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+		<!--**********************************
+            Sidebar start
+        ***********************************-->
+		<div th:insert="sidebar :: sidebar"></div>
+		<!--**********************************
+            Sidebar end
+        ***********************************-->
+
+		<!--**********************************
+            Content body start
+        ***********************************-->
+		<div class="content-body">
+
+			<div class="row page-titles mx-0">
+				<div class="col p-md-0">
+					<h3 style="color: darkblue" th:text="#{sidebar.presencelist}"></h3>
+				</div>
+			</div>
+			<!-- row -->
+
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<!-- <h4 class="card-title">Responsive Table</h4> -->
+						<div class="table-responsive">
+							<table class="table  table-bordered zero-configuration">
+								<thead>
+									<tr th:style="'color:orange'">
+										<th th:text="#{presencelist.presencename}"></th>
+										<th th:text="#{presencelist.accountid}"></th>
+										<th th:text="#{presencelist.hourstoadd}"></th>
+										<th th:text="#{presencelist.canuserrequest}"></th>
+										<th th:text="#{presencelist.canuserchangehours}"></th>
+										<th th:text="#{presencelist.approver1}"></th>
+										<th th:text="#{presencelist.approver2}"></th>
+										<th th:text="#{presencelist.approvechain}"></th>
+										<th th:text="#{general.status}"></th>
+										<th th:text="#{presencelist.action}"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="presencetype: ${presencetypes}">
+										<td><span class="label"
+											th:style="|background-color: ${presencetype.color}|">&nbsp;&nbsp;</span>&nbsp;&nbsp;<span
+											th:text="${presencetype.name}"></span>&nbsp;&nbsp;<span
+											th:if="${presencetype.comment != ''}" data-toggle="modal"
+											th:attr="data-target='#modalComment'+${presencetype.id}"
+											data-target="#modalComment"><a data-toggle="tooltip"
+												data-placement="top" th:title="#{general.commentavailable}"
+												style="color: orange" class="fa fa-info-circle"></a></span>
+											<div class="modal fade" id="modalComment" role="dialog"
+												th:id="modalComment+${presencetype.id }" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-body">
+															<h5 th:text="${presencetype.name}"></h5>
+															<label for="message-text" class="col-form-label"
+																th:text="${presencetype.comment}"></label>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-primary"
+																data-dismiss="modal" th:text="#{general.close}"></button>
+														</div>
+													</div>
+												</div>
+											</div></td>
+
+										<td th:text="${presencetype.accountID}"></td>
+
+										<td><span th:if="${presencetype.hours == -10}"
+											th:text="#{newpresence.workingday}"></span> <span
+											th:if="${presencetype.hours == -20}"
+											th:text="#{newpresence.halfworkingday}"></span> <span
+											th:if="${presencetype.hours >= 0}"
+											th:text="${presencetype.hours} + ' ' + #{newpresence.workinghour}"></span></td>
+
+										<td><span th:if="${presencetype.userCanRequest == true}"
+											class="label label-success" th:text="#{general.yes}"></span>
+											<span th:if="${presencetype.userCanRequest == false}"
+											class="label label-secondary" th:text="#{general.no}"></span></td>
+
+										<td><span th:if="${presencetype.userCanChange == true}"
+											class="label label-success" th:text="#{general.yes}"></span>
+											<span th:if="${presencetype.userCanChange == false}"
+											class="label label-secondary" th:text="#{general.no}"></span></td>
+
+										<td><span
+											th:if="${presencetype.approver1 == 'TEAM_LEADER'}"
+											th:text="#{general.teamleader}"></span> <span
+											th:if="${presencetype.approver1 == 'TEAM_LEADERS_LEADER'}"
+											th:text="#{general.teamleadersleader}"></span> <span
+											th:if="${presencetype.approver1 == 'HR'}"
+											th:text="#{general.hr}"></span></td>
+
+										<td><span
+											th:if="${presencetype.approver2 == 'TEAM_LEADER'}"
+											th:text="#{general.teamleader}"></span> <span
+											th:if="${presencetype.approver2 == 'TEAM_LEADERS_LEADER'}"
+											th:text="#{general.teamleadersleader}"></span> <span
+											th:if="${presencetype.approver2 == 'HR'}"
+											th:text="#{general.hr}"></span></td>
+
+										<td><span
+											th:if="${presencetype.approveMethod == 'ONE_OF_BOTH'}"
+											th:text="#{presencelist.approvemethodone}"></span> <span
+											th:if="${presencetype.approveMethod == 'BOTH_PARRALEL'}"
+											th:text="#{presencelist.approvemethodparallel}"></span> <span
+											th:if="${presencetype.approveMethod == 'BOTH_SERIAL'}"
+											th:text="#{presencelist.approvemethodserial}"></span> <span
+											th:if="${presencetype.approveMethod == 'AUTOMATIC'}"
+											th:text="#{presencelist.approvemethodauto}"></span></td>
+
+										<td><span th:if="${presencetype.active == true}"
+											class="label label-success" th:text="#{general.enabled}"></span>
+											<span th:if="${presencetype.active == false}"
+											class="label label-danger" th:text="#{general.disabled}"></span></td>
+										<td>
+											<div class="bootstrap-modal">
+												<span><a type="button" data-toggle="tooltip"
+													th:href="@{/hr/editpresencetype}+'/'+${presencetype.id}"
+													data-placement="top" th:title="#{presencelist.edit}"
+													class="btn btn-primary btn-sm fa fa-edit"></a></span> <span
+													th:if="${presencetype.active == false}" data-toggle="modal"
+													th:attr="data-target='#modalEnable'+${presencetype.id}"
+													data-target="#modelEnable" data-whatever="@getbootstrap"><button
+														type="button" class="btn btn-primary btn-sm fa fa-play"
+														data-toggle="tooltip" data-placement="top"
+														th:title="#{presencelist.enable}"></button></span>
+												<div class="modal fade" id="modalEnable" role="dialog"
+													th:id="modalEnable+${presencetype.id }" aria-hidden="true">
+													<form class="form-valide" action="#"
+														th:action="@{/hr/enablepresencetype}" method="post">
+														<div class="modal-dialog" role="document">
+															<div class="modal-content">
+																<div class="modal-body">
+																	<label for="message-text" class="col-form-label"
+																		th:text="'['+${presencetype.name}+']'+ ' '+#{presencelist.askforenable}"></label>
+																	<input type="hidden" id="presencetypeId"
+																		name="presencetypeId" th:value="${presencetype.id}">
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-secondary"
+																		data-dismiss="modal" th:text="#{general.cancel}"></button>
+																	<button type="submit" class="btn btn-primary"
+																		th:text="#{general.yes}"></button>
+																</div>
+															</div>
+														</div>
+													</form>
+												</div>
+												<span th:if="${presencetype.active == true}"
+													data-toggle="modal"
+													th:attr="data-target='#modalDisable'+${presencetype.id}"
+													data-target="#modalDisable"><button type="button"
+														class="btn btn-danger btn-sm fa fa-stop"
+														data-toggle="tooltip" data-placement="top"
+														th:title="#{presencelist.disable}"></button> </span>
+												<div class="modal fade" id="modalDisable" role="dialog"
+													th:id="modalDisable+${presencetype.id }" aria-hidden="true">
+													<form class="form-valide" action="#"
+														th:action="@{/hr/disablepresencetype}" method="post">
+														<div class="modal-dialog" role="document">
+															<div class="modal-content">
+																<div class="modal-body">
+																	<label for="message-text" class="col-form-label"
+																		th:text="'['+${presencetype.name}+']'+ ' '+#{presencelist.askfordisable}"></label>
+																	<input type="hidden" id="presencetypeId"
+																		name="presencetypeId" th:value="${presencetype.id}">
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-secondary"
+																		data-dismiss="modal" th:text="#{general.cancel}"></button>
+																	<button type="submit" class="btn btn-primary"
+																		th:text="#{general.yes}"></button>
+																</div>
+															</div>
+														</div>
+													</form>
+												</div>
+												<span th:if="${presencetype.inUse == false}"
+													data-toggle="modal"
+													th:attr="data-target='#modalDelete'+${presencetype.id}"
+													data-target="#modalDelete" data-whatever="@getbootstrap"><button
+														type="button" class="btn btn-danger btn-sm fa fa-trash"
+														data-toggle="tooltip" data-placement="top"
+														th:title="#{presencelist.delete}"></button> </span>
+												<div class="modal fade" id="modalDelete" role="dialog"
+													th:id="modalDelete+${presencetype.id }" aria-hidden="true">
+													<form class="form-valide" action="#"
+														th:action="@{/hr/deletepresencetype}" method="post">
+														<div class="modal-dialog" role="document">
+															<div class="modal-content">
+																<div class="modal-body">
+																	<label for="message-text" class="col-form-label"
+																		th:text="'['+${presencetype.name}+']'+ ' '+ #{presencelist.askfordelete}"></label>
+																	<input type="hidden" id="presencetypeId"
+																		name="presencetypeId" th:value="${presencetype.id}">
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-secondary"
+																		data-dismiss="modal" th:text="#{general.cancel}"></button>
+																	<button type="submit" class="btn btn-primary"
+																		th:text="#{general.yes}"></button>
+																</div>
+															</div>
+														</div>
+													</form>
+												</div>
+
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #/ container -->
+	</div>
+	<!--**********************************
+            Content body end
+        ***********************************-->
+
+
+	<!--**********************************
+            Footer start
+        ***********************************-->
+	<div th:insert="footer :: footer"></div>
+	<!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<script src="/webresources/plugins/common/common.min.js"></script>
+	<script src="/webresources/js/custom.min.js"></script>
+	<script src="/webresources/js/settings.js"></script>
+	<script src="/webresources/js/gleek.js"></script>
+	<script src="/webresources/js/styleSwitcher.js"></script>
+
+	<!-- Chartjs -->
+	<script src="/webresources/plugins/chart.js/Chart.bundle.min.js"></script>
+	<!-- Circle progress -->
+	<script
+		src="/webresources/plugins/circle-progress/circle-progress.min.js"></script>
+	<!-- Datamap -->
+	<script src="/webresources/plugins/d3v3/index.js"></script>
+	<script src="/webresources/plugins/topojson/topojson.min.js"></script>
+	<script src="/webresources/plugins/datamaps/datamaps.world.min.js"></script>
+	<!-- Morrisjs -->
+	<script src="/webresources/plugins/raphael/raphael.min.js"></script>
+	<script src="/webresources/plugins/morris/morris.min.js"></script>
+	<!-- Pignose Calender -->
+	<script src="/webresources/plugins/moment/moment.min.js"></script>
+	<script
+		src="/webresources/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+	<!-- ChartistJS -->
+	<script src="/webresources/plugins/chartist/js/chartist.min.js"></script>
+	<script
+		src="/webresources/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+	<!-- fontawesome-free -->
+	<script src="/webresources/vendor/fontawesome-free/js/all.js"></script>
+
+	<script src="/webresources/plugins/fullcalendar/js/fullcalendar.min.js"></script>
+	<script src="/webresources/js/plugins-init/fullcalendar-init.js"></script>
+	<script src="/webresources/js/dashboard/dashboard-1.js"></script>
+
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.min.js"></script>
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.init.js"></script>
+
+	<!-- fontawesome-free -->
+	<script src="/webresources/plugins/tables/js/jquery.dataTables.min.js"></script>
+	<script
+		src="/webresources/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+	<script
+		src="/webresources/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+
+</body>
+
+</html>

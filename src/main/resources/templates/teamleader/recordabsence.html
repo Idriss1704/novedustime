@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title th:text="#{sidebar.newuserabsence}"></title>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16"
+	href="/webresources/images/favicon.png">
+<!-- Pignose Calender -->
+<link
+	href="/webresources/plugins/pg-calendar/css/pignose.calendar.min.css"
+	rel="stylesheet">
+<!-- Chartist -->
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist/css/chartist.min.css">
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+<!-- Custom Stylesheet -->
+<link href="/webresources/css/style.css" rel="stylesheet">
+<!-- fontawesome-free -->
+<link rel="stylesheet"
+	href="/webresources/vendor/fontawesome-free/css/all.css">
+<link href="/webresources/plugins/fullcalendar/css/fullcalendar.min.css"
+	rel="stylesheet">
+<link href="/webresources/plugins/sweetalert/css/sweetalert.css"
+	rel="stylesheet">
+
+<!-- Custom Stylesheet -->
+<link
+	href="/webresources/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+	rel="stylesheet">
+<!-- Page plugins css -->
+<link
+	href="/webresources/plugins/clockpicker/dist/jquery-clockpicker.min.css"
+	rel="stylesheet">
+<!-- Color picker plugins css -->
+<link
+	href="/webresources/plugins/jquery-asColorPicker-master/css/asColorPicker.css"
+	rel="stylesheet">
+<!-- Date picker plugins css -->
+<link
+	href="/webresources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css"
+	rel="stylesheet">
+<!-- Daterange picker plugins css -->
+<link
+	href="/webresources/plugins/timepicker/bootstrap-timepicker.min.css"
+	rel="stylesheet">
+<link
+	href="/webresources/plugins/bootstrap-daterangepicker/daterangepicker.css"
+	rel="stylesheet">
+
+<link
+	href="/webresources/plugins/tables/css/datatable/dataTables.bootstrap4.min.css"
+	rel="stylesheet">
+
+</head>
+
+<body>
+
+	<!--*******************
+        Preloader start
+    ********************-->
+	<div id="preloader">
+		<div class="loader">
+			<svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none"
+					stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+		</div>
+	</div>
+	<!--*******************
+        Preloader end
+    ********************-->
+
+
+	<!--**********************************
+        Main wrapper start
+    ***********************************-->
+	<div id="main-wrapper">
+
+		<!--**********************************
+            Nav header start
+        ***********************************-->
+		<div th:insert="navheader :: navheader"></div>
+		<!--**********************************
+            Nav header end
+        ***********************************-->
+
+		<!--**********************************
+            Header start
+        ***********************************-->
+		<div class="header">
+			<div class="header-content clearfix">
+
+				<div class="nav-control">
+					<div class="hamburger">
+						<span class="toggle-icon"><i class="icon-menu"></i></span>
+					</div>
+				</div>
+				<div class="header-right">
+					<ul class="clearfix">
+						<li class="icons dropdown"><a href="javascript:void(0)"
+							data-toggle="dropdown"> <i class="mdi mdi-bell-outline"></i>
+								<span class="badge badge-pill gradient-2">3</span>
+						</a>
+							<div
+								class="drop-down animated fadeIn dropdown-menu dropdown-notfication">
+								<div
+									class="dropdown-content-heading d-flex justify-content-between">
+									<span class="" th:text="#{topbar.newnotifications}"></span> <a
+										href="javascript:void()" class="d-inline-block"> <span
+										class="badge badge-pill gradient-2">3</span>
+									</a>
+								</div>
+								<div class="dropdown-content-body">
+									<ul>
+										<li><a href="javascript:void()"> <span
+												class="mr-3 avatar-icon bg-success-lighten-2"><i
+													class="icon-present"></i></span>
+												<div class="notification-content">
+													<h6 class="notification-heading">Events near you</h6>
+													<span class="notification-text">Within next 5 days</span>
+												</div>
+										</a></li>
+									</ul>
+
+								</div>
+							</div></li>
+						<li class="icons dropdown d-none d-md-flex"><a
+							href="javascript:void(0)" class="log-user" data-toggle="dropdown">
+								<span>English</span> <i class="fa fa-angle-down f-s-14"
+								aria-hidden="true"></i>
+						</a>
+							<div
+								class="drop-down dropdown-language animated fadeIn  dropdown-menu">
+								<div class="dropdown-content-body">
+									<ul>
+										<li><a href="javascript:void()">English</a></li>
+										<li><a href="javascript:void()">Deutsch</a></li>
+										<li><a href="javascript:void()">Francais</a></li>
+									</ul>
+								</div>
+							</div></li>
+						<li class="icons dropdown">
+							<div class="user-img c-pointer position-relative"
+								data-toggle="dropdown">
+								<span class="activity active"></span> <img
+									src="/webresources/images/user/1.png" height="40" width="40"
+									alt="">
+							</div>
+							<div
+								class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+								<div class="dropdown-content-body">
+									<ul>
+										<li><a href="app-profile.html"><i class="icon-user"></i>
+												<span th:text="#{topbar.profile}"></span></a></li>
+
+										<hr class="my-2">
+										<li><a href="page-lock.html"><i class="icon-lock"></i>
+												<span th:text="#{topbar.lockscreen}"></span></a></li>
+										<li><a href="page-login.html"><i class="icon-key"></i>
+												<span th:text="#{topbar.logout}"></span></a></li>
+									</ul>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+		<!--**********************************
+            Sidebar start
+        ***********************************-->
+		<div th:insert="sidebar :: sidebar"></div>
+		<!--**********************************
+            Sidebar end
+        ***********************************-->
+
+		<!--**********************************
+            Content body start
+        ***********************************-->
+		<div class="content-body">
+
+			<div class="row page-titles mx-0">
+				<div class="col p-md-0">
+					<h3 style="color: skyblue" th:text="#{sidebar.newuserabsence}"></h3>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-2">
+								<div class="">
+									<h5 class="box-title m-t-30" style="color: orange"
+										th:text="#{requestabsence.username}"></h5>
+									<select class="form-control" id="val-skill" name="val-skill">
+										<option value="" th:text="#{general.pleaseselect}"></option>
+										<option value="#">Max Musterman</option>
+										<option value="#">Maxi Musterfrau</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="">
+									<h5 class="box-title m-t-30" style="color: orange"
+										th:text="#{requestabsence.category}"></h5>
+									<select class="form-control" id="val-skill" name="val-skill">
+										<option value="" th:text="#{general.pleaseselect}"></option>
+										<option value="#">Vacation</option>
+										<option value="#">Overtime</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="example">
+									<h5 class="box-title m-t-30 " style="color: orange"
+										th:text="#{requestabsence.period}"></h5>
+									<input type="text"
+										class="form-control input-daterange-timepicker"
+										name="daterange"
+										value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<h5>&nbsp;</h5>
+								<div class="example">
+									<button type="button" class="btn btn-success">
+										<span th:text="#{requestabsence.check}"></span><span>&nbsp;</span><i></i>
+									</button>
+									<button type="button" class="btn btn-primary">
+										<span th:text="#{requestabsence.send}"></span><span>&nbsp;</span><i></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<!-- <h4 class="card-title">Responsive Table</h4> -->
+						<div class="table-responsive">
+							<div class="pull-left">
+								<h5 th:text="#{requestabsence.history}" style="color: orange"></h5>
+
+							</div>
+							<form class="form-valide" action="#" method="post">
+								<table class="table table-bordered zero-configuration">
+									<thead>
+										<tr>
+											<th th:text="#{requestabsence.date}"></th>
+											<th th:text="#{requestabsence.firstday}"></th>
+											<th th:text="#{requestabsence.lastday}"></th>
+											<th th:text="#{requestabsence.category}"></th>
+											<th th:text="#{requestabsence.workingdays}"></th>
+											<th th:text="#{requestabsence.status}"></th>
+											<th th:text="#{requestabsence.action}"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><span class="text-muted">Oct 16, 2017</span></td>
+											<td>Oct 16, 2017</td>
+											<td>Oct 16, 2017</td>
+											<td>Vacation</td>
+											<td>15</td>
+											<td>Open</td>
+											<td>
+												<div class="bootstrap-modal">
+													<span><button type="button" data-toggle="tooltip"
+															data-placement="top" th:title="#{requestabsence.edit}"
+															class="btn btn-primary btn-sm fa fa-edit"></button></span> <span
+														data-toggle="modal" data-target="#exampleModal"
+														data-whatever="@getbootstrap"><button type="button"
+															class="btn btn-danger btn-sm fa fa-trash"
+															data-toggle="tooltip" data-placement="top"
+															th:title="#{requestabsence.delete}"></button></span>
+
+
+													<div class="modal fade" id="exampleModal" tabindex="-1"
+														role="dialog" aria-labelledby="exampleModalLabel"
+														aria-hidden="true">
+														<div class="modal-dialog" role="document">
+															<div class="modal-content">
+																<div class="modal-body">
+
+																	<div class="form-group">
+																		<label for="message-text" class="col-form-label"
+																			th:text="#{general.askbeforedelete}"> </label>
+																	</div>
+
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-secondary"
+																		data-dismiss="modal" th:text="#{general.cancel}"></button>
+																	<button type="button" class="btn btn-primary"
+																		th:text="#{general.yes}"></button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #/ container -->
+	</div>
+	<!--**********************************
+            Content body end
+        ***********************************-->
+
+
+	<!--**********************************
+            Footer start
+        ***********************************-->
+   <div th:insert="footer :: footer"></div>
+	<!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<script src="/webresources/plugins/common/common.min.js"></script>
+	<script src="/webresources/js/custom.min.js"></script>
+	<script src="/webresources/js/settings.js"></script>
+	<script src="/webresources/js/gleek.js"></script>
+	<script src="/webresources/js/styleSwitcher.js"></script>
+
+	<!-- Chartjs -->
+	<script src="/webresources/plugins/chart.js/Chart.bundle.min.js"></script>
+	<!-- Circle progress -->
+	<script
+		src="/webresources/plugins/circle-progress/circle-progress.min.js"></script>
+	<!-- Datamap -->
+	<script src="/webresources/plugins/d3v3/index.js"></script>
+	<script src="/webresources/plugins/topojson/topojson.min.js"></script>
+	<script src="/webresources/plugins/datamaps/datamaps.world.min.js"></script>
+	<!-- Morrisjs -->
+	<script src="/webresources/plugins/raphael/raphael.min.js"></script>
+	<script src="/webresources/plugins/morris/morris.min.js"></script>
+	<!-- Pignose Calender -->
+	<script src="/webresources/plugins/moment/moment.min.js"></script>
+	<script
+		src="/webresources/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+	<!-- ChartistJS -->
+	<script src="/webresources/plugins/chartist/js/chartist.min.js"></script>
+	<script
+		src="/webresources/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+	<!-- fontawesome-free -->
+	<script src="/webresources/vendor/fontawesome-free/js/all.js"></script>
+
+	<script src="/webresources/plugins/fullcalendar/js/fullcalendar.min.js"></script>
+	<script src="/webresources/js/plugins-init/fullcalendar-init.js"></script>
+	<script src="/webresources/js/dashboard/dashboard-1.js"></script>
+
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.min.js"></script>
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.init.js"></script>
+
+	<script src="/webresources/plugins/moment/moment.js"></script>
+	<script
+		src="/webresources/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+	<!-- Clock Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+	<!-- Color Picker Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+	<!-- Date Picker Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<!-- Date range Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+	<script
+		src="/webresources/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+	<script src="/webresources/js/plugins-init/form-pickers-init.js"></script>
+
+	<script src="/webresources/plugins/tables/js/jquery.dataTables.min.js"></script>
+	<script
+		src="/webresources/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+	<script
+		src="/webresources/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+
+</body>
+
+</html>

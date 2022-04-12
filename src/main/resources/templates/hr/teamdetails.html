@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title th:text="#{teamdetails.pagetitle}"></title>
+<!-- Favicon icon -->
+<link rel="icon" type="image/png" sizes="16x16"
+	href="/webresources/images/favicon.png">
+<!-- Pignose Calender -->
+<link
+	href="/webresources/plugins/pg-calendar/css/pignose.calendar.min.css"
+	rel="stylesheet">
+<!-- Chartist -->
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist/css/chartist.min.css">
+<link rel="stylesheet"
+	href="/webresources/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+<!-- Custom Stylesheet -->
+<link href="/webresources/css/style.css" rel="stylesheet">
+<!-- fontawesome-free -->
+<link rel="stylesheet"
+	href="/webresources/vendor/fontawesome-free/css/all.css">
+<link href="/webresources/plugins/fullcalendar/css/fullcalendar.min.css"
+	rel="stylesheet">
+<link href="/webresources/plugins/sweetalert/css/sweetalert.css"
+	rel="stylesheet">
+
+<!-- Custom Stylesheet -->
+<link
+	href="/webresources/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+	rel="stylesheet">
+<!-- Page plugins css -->
+<link
+	href="/webresources/plugins/clockpicker/dist/jquery-clockpicker.min.css"
+	rel="stylesheet">
+<!-- Color picker plugins css -->
+<link
+	href="/webresources/plugins/jquery-asColorPicker-master/css/asColorPicker.css"
+	rel="stylesheet">
+<!-- Date picker plugins css -->
+<link
+	href="/webresources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css"
+	rel="stylesheet">
+<!-- Daterange picker plugins css -->
+<link
+	href="/webresources/plugins/timepicker/bootstrap-timepicker.min.css"
+	rel="stylesheet">
+<link
+	href="/webresources/plugins/bootstrap-daterangepicker/daterangepicker.css"
+	rel="stylesheet">
+
+<link
+	href="/webresources/plugins/tables/css/datatable/dataTables.bootstrap4.min.css"
+	rel="stylesheet">
+
+</head>
+
+<body>
+
+	<!--*******************
+        Preloader start
+    ********************-->
+	<div id="preloader">
+		<div class="loader">
+			<svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none"
+					stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+		</div>
+	</div>
+	<!--*******************
+        Preloader end
+    ********************-->
+
+
+	<!--**********************************
+        Main wrapper start
+    ***********************************-->
+	<div id="main-wrapper">
+
+		<!--**********************************
+            Nav header start
+        ***********************************-->
+		<div th:insert="navheader :: navheader"></div>
+		<!--**********************************
+            Nav header end
+        ***********************************-->
+
+		<!--**********************************
+            Header start
+        ***********************************-->
+		<div th:insert="header :: header"></div>
+		<!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+		<!--**********************************
+            Sidebar start
+        ***********************************-->
+		<div th:insert="sidebar :: sidebar"></div>
+		<!--**********************************
+            Sidebar end
+        ***********************************-->
+
+		<!--**********************************
+            Content body start
+        ***********************************-->
+		<div class="content-body">
+
+			<div class="row page-titles mx-0">
+				<div class="col p-md-0">
+					<h3 style="color: skyblue" th:text="#{teamdetails.pagetitle}"></h3>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-4 col-xl-3">
+						<div class="card">
+							<div class="card-body">
+								<div class="media align-items-center mb-4">
+									<img class="mr-3" th:src="@{/viewimage/} + ${team.logoPath}"
+										width="80" alt="">
+									<div class="media-body">
+										<h3 style="color: orange" class="mb-0" th:text="${team.name}"></h3>
+										<p class="text-muted mb-0" th:text="${team.teamid}"></p>
+									</div>
+								</div>
+
+								<div class="row mb-5">
+									<div class="col">
+										<div class="card card-profile text-center">
+											<span th:if="${team.leader.imgPath != null}"><img
+												th:src="@{/viewimage/} + ${team.leader.imgPath}" alt=""
+												height="57" /></span>
+											<h5 class="mb-0" th:text="#{teamdetails.teamleader}"></h5>
+											<p class="text-muted px-4"
+												th:text="${team.leader != null} ? ${team.leader.getFullName()}"></p>
+										</div>
+									</div>
+									<div class="col">
+										<div class="card card-profile text-center">
+											<span th:if="${team.hr.imgPath != null}"><img
+												th:src="@{/viewimage/} + ${team.hr.imgPath}" alt=""
+												height="57" /></span>
+											<h5 class="mb-0" th:text="#{teamdetails.hr}"></h5>
+											<p class="text-muted"
+												th:text="${team.hr != null} ? ${team.hr.getFullName()}"></p>
+										</div>
+									</div>
+									<div class="col-12 text-center">
+										<form method="get" action="/hr/teamlist">
+											<button type="submit" class="btn btn-primary px-5"
+												th:text="#{sidebar.teamlist}"></button>
+										</form>
+									</div>
+								</div>
+
+								<h4 th:text="#{teamdetails.details}"></h4>
+
+								<ul class="card-profile__info">
+									<li><strong class="text-dark mr-4"
+										th:text="#{teamdetails.email}"></strong> <span
+										th:text="${team.email}"></span></li>
+									<li><strong class="text-dark mr-4"
+										th:text="#{teamdetails.membercount}"></strong> <span
+										th:text="${#lists.size(team.members)}"></span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-8 col-xl-9">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title" th:text="#{teamdetails.memberlist}"></h4>
+								<div class="table-responsive">
+									<table class="table header-border">
+										<thead>
+											<tr th:style="'color:darkblue'">
+												<th th:text="#{teamdetails.photo}"></th>
+												<th th:text="#{teamdetails.firstname}"></th>
+												<th th:text="#{teamdetails.lastname}"></th>
+												<th th:text="#{teamdetails.status}"></th>
+												<th th:text="#{teamdetails.action}"></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="member: ${team.members}">
+												<td><span th:if="${member.imgPath != null}"><img
+														th:src="@{/viewimage/} + ${member.imgPath}" alt=""
+														height="42" /></span></td>
+												<td th:text="${member.firstName}"></td>
+												<td th:text="${member.lastName}"></td>
+												<td><span th:if="${member.active == true}"
+													class="label label-success" th:text="#{teamdetails.active}"></span>
+													<span th:if="${member.active == false}"
+													class="label label-danger"
+													th:text="#{teamdetails.inactive}"></span></td>
+												<td>
+													<div class="bootstrap-modal">
+														<span><a type="button" data-toggle="tooltip"
+															th:href="@{/hr/edituser}+'/'+${member.id}"
+															data-placement="top" th:title="#{teamdetails.edituser}"
+															class="btn btn-primary btn-sm fa fa-edit"></a></span> <span
+															th:if="${member.id != team.leader.id}"
+															data-toggle="modal"
+															th:attr="data-target='#modalExclude'+${member.id}"
+															data-target="#exampleModal" data-whatever="@getbootstrap"><button
+																type="button" class="btn btn-danger btn-sm fa fa-ban"
+																data-toggle="tooltip" data-placement="top"
+																th:title="#{teamdetails.excludeuser}"></button></span>
+														<div class="modal fade" id="modalExclude" role="dialog"
+															th:id="modalExclude+${member.id }" aria-hidden="true">
+															<form class="form-valide"
+																th:action="@{/hr/excludeuserfromteam}" method="post">
+																<div class="modal-dialog" role="document">
+																	<div class="modal-content">
+																		<div class="modal-body">
+																			<label for="message-text" class="col-form-label"
+																				th:text="'['+${member.getFullName()}+']'+ ' '+ #{teamdetails.askforexclude}"></label>
+																			<input type="hidden" id="teamId" name="teamId"
+																				th:value="${team.id}"> <input type="hidden"
+																				id="memberId" name="memberId"
+																				th:value="${member.id}">
+																		</div>
+																		<div class="modal-footer">
+																			<button type="button" class="btn btn-secondary"
+																				data-dismiss="modal" th:text="#{general.cancel}"></button>
+																			<button type="submit" class="btn btn-primary"
+																				th:text="#{general.yes}"></button>
+																		</div>
+																	</div>
+																</div>
+															</form>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #/ container -->
+	</div>
+	<!--**********************************
+            Content body end
+        ***********************************-->
+
+
+	<!--**********************************
+            Footer start
+        ***********************************-->
+	<div th:insert="footer :: footer"></div>
+	<!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+	<!--**********************************
+        Scripts
+    ***********************************-->
+	<script src="/webresources/plugins/common/common.min.js"></script>
+	<script src="/webresources/js/custom.min.js"></script>
+	<script src="/webresources/js/settings.js"></script>
+	<script src="/webresources/js/gleek.js"></script>
+	<script src="/webresources/js/styleSwitcher.js"></script>
+
+	<!-- Chartjs -->
+	<script src="/webresources/plugins/chart.js/Chart.bundle.min.js"></script>
+	<!-- Circle progress -->
+	<script
+		src="/webresources/plugins/circle-progress/circle-progress.min.js"></script>
+	<!-- Datamap -->
+	<script src="/webresources/plugins/d3v3/index.js"></script>
+	<script src="/webresources/plugins/topojson/topojson.min.js"></script>
+	<script src="/webresources/plugins/datamaps/datamaps.world.min.js"></script>
+	<!-- Morrisjs -->
+	<script src="/webresources/plugins/raphael/raphael.min.js"></script>
+	<script src="/webresources/plugins/morris/morris.min.js"></script>
+	<!-- Pignose Calender -->
+	<script src="/webresources/plugins/moment/moment.min.js"></script>
+	<script
+		src="/webresources/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+	<!-- ChartistJS -->
+	<script src="/webresources/plugins/chartist/js/chartist.min.js"></script>
+	<script
+		src="/webresources/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+	<!-- fontawesome-free -->
+	<script src="/webresources/vendor/fontawesome-free/js/all.js"></script>
+
+	<script src="/webresources/plugins/fullcalendar/js/fullcalendar.min.js"></script>
+	<script src="/webresources/js/plugins-init/fullcalendar-init.js"></script>
+	<script src="/webresources/js/dashboard/dashboard-1.js"></script>
+
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.min.js"></script>
+	<script src="/webresources/plugins/sweetalert/js/sweetalert.init.js"></script>
+
+	<script src="/webresources/plugins/moment/moment.js"></script>
+	<script
+		src="/webresources/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+	<!-- Clock Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+	<!-- Color Picker Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+	<script
+		src="/webresources/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+	<!-- Date Picker Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<!-- Date range Plugin JavaScript -->
+	<script
+		src="/webresources/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+	<script
+		src="/webresources/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+	<script src="/webresources/js/plugins-init/form-pickers-init.js"></script>
+
+	<script src="/webresources/plugins/tables/js/jquery.dataTables.min.js"></script>
+	<script
+		src="/webresources/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+	<script
+		src="/webresources/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+
+
+</body>
+
+</html>
